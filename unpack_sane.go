@@ -194,7 +194,7 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 			if e != nil {
 				return nil, nbytesread, e
 			}
-			retval = data
+			retval = string(data)
 		case 0xdb:
 			nbytestoread, n, e := readUint32(reader)
 			nbytesread += n
@@ -207,7 +207,7 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 			if e != nil {
 				return nil, nbytesread, e
 			}
-			retval = data
+			retval = string(data)
 		case 0xdc:
 			nelemstoread, n, e := readUint16(reader)
 			nbytesread += n
