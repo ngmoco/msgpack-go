@@ -4,6 +4,7 @@ import (
 	"io"
 	"strconv"
 	"unsafe"
+	"fmt"
 )
 
 
@@ -53,7 +54,7 @@ func checkArrayForString(ary []interface{}) interface{} {
 			if _, ok := ary[0].(byte); ok {
 				strB := make([]byte, len(ary))
 				// copy from the interface array
-				for i,v := range retval {
+				for i,v := range ary {
 					var ok bool
 					if strB[i], ok = v.(byte); !ok {
 						// if we fail the copy with type assertion just fall return the original
