@@ -79,6 +79,7 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 		return nil, 0, e
 	}
 	nbytesread += 1
+	
 	if c < 0x80 || c >= 0xe0 {
 		retval = int8(c)
 	} else if c >= 0x80 && c <= 0x8f {
@@ -99,11 +100,12 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 	} else if c >= 0xa0 && c <= 0xbf {
 		data := make([]byte, c&0x1f)
 		n, e := reader.Read(data)
+		fmt.Println("Raw: %v\n", data)
 		nbytesread += n
 		if e != nil {
 			return nil, nbytesread, e
 		}
-		retval = data
+		retval = string(data)
 	} else {
 		switch c {
 		case 0xc0:
