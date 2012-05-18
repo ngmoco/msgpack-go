@@ -47,6 +47,27 @@ func unpackMapSane(reader io.Reader, nelems uint) (v map[interface{}]interface{}
 	return retval, nbytesread, nil
 }
 
+func checkArrayForString(ary []interface{}) interface{} {
+		// if we've got uint8 then return a string instead
+		if len(ary) > 0 {
+			if _, ok := ary[0].(byte); ok {
+				strB := make([]byte, len(ary))
+				// copy from the interface array
+				for i,v := range retval {
+					var ok bool
+					if strB[i], ok = v.(byte); !ok {
+						// if we fail the copy with type assertion just fall return the original
+						return ary
+					}
+				}
+				return string(strB)			
+			} else {
+				fmt.Printf("Not string: %v %T\n", ary, ary[0])
+			}
+		}
+		return ary
+}
+
 func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 	var retval interface{}
 	var nbytesread int = 0
