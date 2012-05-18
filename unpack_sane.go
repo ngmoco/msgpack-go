@@ -89,6 +89,7 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 		nbytesread += n
 	} else if c >= 0x90 && c <= 0x9f {
 		retval, n, e = unpackArraySane(reader, uint(c&0xf))
+		retval = checkArrayForString(retval)
 		nbytesread += n
 		if e != nil {
 			return nil, nbytesread, e
@@ -213,6 +214,7 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 				return nil, nbytesread, e
 			}
 			retval, n, e = unpackArraySane(reader, uint(nelemstoread))
+			retval = checkArrayForString(retval)
 			nbytesread += n
 			if e != nil {
 				return nil, nbytesread, e
@@ -224,6 +226,7 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 				return nil, nbytesread, e
 			}
 			retval, n, e = unpackArraySane(reader, uint(nelemstoread))
+			retval = checkArrayForString(retval)
 			nbytesread += n
 			if e != nil {
 				return nil, nbytesread, e
