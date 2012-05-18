@@ -190,6 +190,7 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 			}
 			data := make([]byte, nbytestoread)
 			n, e = reader.Read(data)
+			fmt.Println("Raw: %v\n", data)
 			nbytesread += n
 			if e != nil {
 				return nil, nbytesread, e
@@ -203,6 +204,7 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 			}
 			data := make([]byte, nbytestoread)
 			n, e = reader.Read(data)
+			fmt.Println("Raw: %v\n", data)
 			nbytesread += n
 			if e != nil {
 				return nil, nbytesread, e
