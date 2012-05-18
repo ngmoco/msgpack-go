@@ -23,8 +23,8 @@ func unpackArraySane(reader io.Reader, nelems uint) (v []interface{}, n int, err
 }
 
 
-func unpackMapSane(reader io.Reader, nelems uint) (v map[interface{}]interface{}, n int, err error) {
-	retval := make(map[interface{}]interface{})
+func unpackMapSane(reader io.Reader, nelems uint) (v map[string]interface{}, n int, err error) {
+	retval := make(map[string]interface{})
 	nbytesread := 0
 	var i uint
 	for i = 0; i < nelems; i++ {
@@ -38,7 +38,7 @@ func unpackMapSane(reader io.Reader, nelems uint) (v map[interface{}]interface{}
 		if e != nil {
 			return nil, nbytesread, e
 		}
-		retval[k] = v
+		retval[k.(string)] = v
 	}
 	return retval, nbytesread, nil
 }
