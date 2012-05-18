@@ -4,12 +4,10 @@ import (
 	"io"
 	"strconv"
 	"unsafe"
-	"fmt"
 )
 
 
 func unpackArraySane(reader io.Reader, nelems uint) (v []interface{}, n int, err error) {
-	fmt.Printf("Reading array with %v elements\n", nelems)
 	retval := make([]interface{}, nelems)
 	nbytesread := 0
 	var i uint
@@ -40,11 +38,7 @@ func unpackMapSane(reader io.Reader, nelems uint) (v map[interface{}]interface{}
 		if e != nil {
 			return nil, nbytesread, e
 		}
-		if str, ok := k.([]uint8); ok {
-			retval[string(str)] = v
-		} else {
-			retval[k] = v
-		}
+		retval[k] = v
 	}
 	return retval, nbytesread, nil
 }
@@ -63,8 +57,6 @@ func checkArrayForString(ary []interface{}) interface{} {
 					}
 				}
 				return string(strB)			
-			} else {
-				fmt.Printf("Not string: %v %T\n", ary, ary[0])
 			}
 		}
 		return ary
@@ -100,7 +92,6 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 	} else if c >= 0xa0 && c <= 0xbf {
 		data := make([]byte, c&0x1f)
 		n, e := reader.Read(data)
-		fmt.Println("Raw: %v\n", data)
 		nbytesread += n
 		if e != nil {
 			return nil, nbytesread, e
@@ -192,7 +183,6 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 			}
 			data := make([]byte, nbytestoread)
 			n, e = reader.Read(data)
-			fmt.Println("Raw: %v\n", data)
 			nbytesread += n
 			if e != nil {
 				return nil, nbytesread, e
@@ -206,7 +196,6 @@ func unpack_sane(reader io.Reader) (v interface{}, n int, err error) {
 			}
 			data := make([]byte, nbytestoread)
 			n, e = reader.Read(data)
-			fmt.Println("Raw: %v\n", data)
 			nbytesread += n
 			if e != nil {
 				return nil, nbytesread, e
