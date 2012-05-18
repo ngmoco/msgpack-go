@@ -9,6 +9,7 @@ import (
 
 
 func unpackArraySane(reader io.Reader, nelems uint) (v []interface{}, n int, err error) {
+	fmt.Printf("Reading array with %v elements\n", nelems)
 	retval := make([]interface{}, nelems)
 	nbytesread := 0
 	var i uint
