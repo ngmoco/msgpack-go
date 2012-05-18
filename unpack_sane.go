@@ -38,7 +38,11 @@ func unpackMapSane(reader io.Reader, nelems uint) (v map[interface{}]interface{}
 		if e != nil {
 			return nil, nbytesread, e
 		}
-		retval[k] = v
+		if str, ok := k.([]uint8) {
+			retval[string(str)] = v
+		} else {
+			retval[k] = v
+		}
 	}
 	return retval, nbytesread, nil
 }
